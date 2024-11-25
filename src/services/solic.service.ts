@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { SolicitudVisitaDto } from 'src/dtos/solic.dto';
-import { UpdateSolicitudVisitaDto } from 'src/dtos/updateSolic.dto';
-import { SolicitudVisita } from 'src/entities/solic.entity';
-import { Repository } from 'typeorm';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { SolicitudVisitaDto, UpdateSolicitudVisitaDto } from "src/dtos";
+import { SolicitudVisita } from "src/entities";
+import { Repository } from "typeorm";
+
 
 @Injectable()
 export class SolicitudesVisitasService {

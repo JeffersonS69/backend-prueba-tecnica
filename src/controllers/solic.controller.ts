@@ -8,11 +8,9 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt_auth.guard';
+import { JwtAuthGuard, RolesGuard } from 'src/auth';
 import { Roles } from 'src/auth/roles.decorator';
-import { RolesGuard } from 'src/auth/roles.guard';
-import { SolicitudVisitaDto } from 'src/dtos/solic.dto';
-import { UpdateSolicitudVisitaDto } from 'src/dtos/updateSolic.dto';
+import { SolicitudVisitaDto, UpdateSolicitudVisitaDto } from 'src/dtos';
 import { SolicitudesVisitasService } from 'src/services/solic.service';
 
 @Controller('solicitudes')

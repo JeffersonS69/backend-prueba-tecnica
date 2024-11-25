@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from '../auth/auth.service';
-import { JwtStrategy } from '../auth/jwt.strategy';
-import { AuthController } from '../auth/auth.controller';
+import { AuthController, AuthService, JwtStrategy } from 'src/auth';
 import { UsuarioModule } from './user.module';
 
 @Module({
