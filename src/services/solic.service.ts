@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { SolicitudVisitaDto, UpdateSolicitudVisitaDto } from "src/dtos";
-import { SolicitudVisita } from "src/entities";
-import { Repository } from "typeorm";
-
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CustomNotFoundException } from 'src/constants/customException';
+import { messageNotFoundResidente, messageNotFoundSolicitud, messageNotFoundVisitante } from 'src/constants/message';
+import { SolicitudVisitaDto, UpdateSolicitudVisitaDto } from 'src/dtos';
+import { SolicitudVisita } from 'src/entities';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SolicitudesVisitasService {
@@ -24,21 +25,39 @@ export class SolicitudesVisitasService {
   }
 
   async findOne(solicitud_id: number): Promise<SolicitudVisita> {
-    return this.solicitudesRepository.findOne({
+    const data = await this.solicitudesRepository.findOne({
       where: { solicitud_id },
     });
+
+    if (!data) {
+      throw new CustomNotFoundException(messageNotFoundSolicitud);
+    }
+
+    return data;
   }
 
   async findOnlyVisitante(visitanteId: number): Promise<SolicitudVisita[]> {
-    return this.solicitudesRepository.find({
+    const visitante = await this.solicitudesRepository.find({
       where: { visitante_id: visitanteId },
     });
+
+    if (!visitante) {
+      throw new CustomNotFoundException(messageNotFoundVisitante);
+    }
+
+    return visitante;
   }
 
   async findOnlyResidente(residenteId: number): Promise<SolicitudVisita[]> {
-    return this.solicitudesRepository.find({
+    const residente = await this.solicitudesRepository.find({
       where: { residente_id: residenteId },
     });
+
+    if (!residente) {
+      throw new CustomNotFoundException(messageNotFoundResidente);
+    }
+
+    return residente;
   }
 
   async update(

@@ -1,7 +1,8 @@
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { CustomNotFoundException } from 'src/constants/customException';
+import { messageNotFoundCedula, messageNotFoundRol, messageNotFoundUsuario, messageNotFountUsuarioByRol } from 'src/constants/message';
 import { CreateUsuarioDto } from 'src/dtos';
 import { Usuario } from 'src/entities';
 import { Repository } from 'typeorm';
@@ -27,18 +28,42 @@ export class UsuariosService {
   }
 
   async findOne(cedula: string): Promise<Usuario> {
-    return this.usuariosRepository.findOne({ where: { cedula } });
+    const data = await this.usuariosRepository.findOne({ where: { cedula } });
+
+    if (!data) {
+      throw new CustomNotFoundException(messageNotFoundCedula);
+    }
+
+    return data;
   }
 
   async findOneById(usuario_id: number): Promise<Usuario> {
-    return this.usuariosRepository.findOne({ where: { usuario_id } });
+    const data = await this.usuariosRepository.findOne({
+      where: { usuario_id },
+    });
+
+    if (!data) {
+      throw new CustomNotFoundException(messageNotFoundUsuario);
+    }
+
+    return data;
   }
 
   async findOnlyByRol(rol: string): Promise<Usuario[]> {
-    return this.usuariosRepository.find({
+    if (rol !== 'visitante' && rol !== 'residente') {
+      throw new CustomNotFoundException(messageNotFoundRol);
+    }
+
+    const data = await this.usuariosRepository.find({
       where: { rol: rol },
       select: ['cedula'],
     });
+
+    if (!data) {
+      throw new CustomNotFoundException(messageNotFountUsuarioByRol);
+    }
+
+    return data;
   }
 
   private async hashPassword(password: string): Promise<string> {

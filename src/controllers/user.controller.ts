@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
+import { MultiExceptionFilter } from 'src/constants/filterException';
 import { CreateUsuarioDto } from 'src/dtos/user.dto';
 import { UsuariosService } from 'src/services/user.service';
 
 @Controller('usuarios')
+@UseFilters(MultiExceptionFilter)
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 

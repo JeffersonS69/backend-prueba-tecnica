@@ -6,15 +6,18 @@ import {
   Param,
   Patch,
   Post,
+  UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard, RolesGuard } from 'src/auth';
 import { Roles } from 'src/auth/roles.decorator';
+import { MultiExceptionFilter } from 'src/constants/filterException';
 import { SolicitudVisitaDto, UpdateSolicitudVisitaDto } from 'src/dtos';
 import { SolicitudesVisitasService } from 'src/services/solic.service';
 
 @Controller('solicitudes')
 @UseGuards(JwtAuthGuard, RolesGuard)
+@UseFilters(MultiExceptionFilter)
 export class SolicitudesVisitasController {
   constructor(private readonly solicitudesService: SolicitudesVisitasService) {}
 
